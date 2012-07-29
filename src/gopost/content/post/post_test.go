@@ -1,3 +1,4 @@
+// Post tests.
 package post
 
 import (
@@ -15,10 +16,14 @@ type PostSuite struct {
 
 var _ = Suite(&PostSuite{})
 
+// Testing post.go means setting up a datastore.
+// SetUpSuite creates a sqlite3 db in a temporary directory for testing.
 func (s *PostSuite) SetUpSuite(c *C) {
-	// set up the database for testing
+    // c.Mkdir() creates a directory that will be destroyed after tests.
+	// (http://go.pkgdoc.org/launchpad.net/gocheck#C.MkDir)
 	s.dir = c.MkDir()
 
+    // Throw the test db in the tmp dir
 	cmdStr := "sqlite3 " + s.dir + "/blog.db < /Users/gmcclure/src/gopost/src/gopost/main/gopost.sql"
 
 	cmd := exec.Command("sh")
@@ -29,6 +34,7 @@ func (s *PostSuite) SetUpSuite(c *C) {
 	}
 }
 
+// TestPostSave simply checks for an error on p.Save(), nothing more.
 func (s *PostSuite) TestPostSave(c *C) {
 	p := &Post{Title: "Test Post", Body: []byte("This is a test post.")}
 	if err := p.Save("sqlite3", s.dir+"/blog.db"); err != nil {

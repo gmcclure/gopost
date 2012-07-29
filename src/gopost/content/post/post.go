@@ -1,3 +1,5 @@
+// Package post provides gopost's basic post model. The post is conceived as,
+// along with a page, a fundmental element of blog content.
 package post
 
 import (
