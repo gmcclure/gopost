@@ -19,7 +19,7 @@ func (s *PostSuite) SetUpSuite(c *C) {
 	// set up the database for testing
 	s.dir = c.MkDir()
 
-	cmdStr := "sqlite3 " + s.dir + "/blog.db < /Users/gmcclure/src/gmc_blog/src/main/blog.sql"
+	cmdStr := "sqlite3 " + s.dir + "/blog.db < /Users/gmcclure/src/gopost/src/main/blog.sql"
 
 	cmd := exec.Command("sh")
 	cmd.Stdin = strings.NewReader(cmdStr)
