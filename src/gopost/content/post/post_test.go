@@ -19,11 +19,11 @@ var _ = Suite(&PostSuite{})
 // Testing post.go means setting up a datastore.
 // SetUpSuite creates a sqlite3 db in a temporary directory for testing.
 func (s *PostSuite) SetUpSuite(c *C) {
-    // c.Mkdir() creates a directory that will be destroyed after tests.
+	// c.Mkdir() creates a directory that will be destroyed after tests.
 	// (http://go.pkgdoc.org/launchpad.net/gocheck#C.MkDir)
 	s.dir = c.MkDir()
 
-    // Throw the test db in the tmp dir
+	// Throw the test db in the tmp dir
 	cmdStr := "sqlite3 " + s.dir + "/blog.db < /Users/gmcclure/src/gopost/src/gopost/main/gopost.sql"
 
 	cmd := exec.Command("sh")
