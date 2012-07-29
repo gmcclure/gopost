@@ -1,9 +1,15 @@
 package main
 
 import (
-    "blog/post"
+    "fmt"
+    "net/http"
 )
 
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprint(w, "Welcome to Falling Rockets.")
+}
+
 func main() {
-    fmt.Println("Blog run successful.")
+    http.HandleFunc("/", handler)
+    http.ListenAndServe(":8080", nil)
 }
