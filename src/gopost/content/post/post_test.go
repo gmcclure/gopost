@@ -2,8 +2,10 @@
 package post
 
 import (
+    "gopost/config"
 	. "launchpad.net/gocheck"
 	"os/exec"
+	"path"
 	"strings"
 	"testing"
 )
@@ -37,7 +39,8 @@ func (s *PostSuite) SetUpSuite(c *C) {
 // TestPostSave simply checks for an error on p.Save(), nothing more.
 func (s *PostSuite) TestPostSave(c *C) {
 	p := &Post{Title: "Test Post", Body: []byte("This is a test post.")}
-	if err := p.Save("sqlite3", s.dir+"/blog.db"); err != nil {
+    err := p.Save( config.DbDriver, path.Join(s.dir, config.DbName) ); 
+	if err != nil {
 		c.Errorf("Error saving: %v", err)
 	}
 }
