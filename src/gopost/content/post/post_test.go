@@ -39,7 +39,7 @@ func (s *PostSuite) SetUpSuite(c *C) {
 // TestPostSave simply checks for an error on p.Save(), nothing more.
 func (s *PostSuite) TestPostSave(c *C) {
 	p := &Post{Title: "Test Post", Body: []byte("This is a test post.")}
-    err := p.Save( config.DbDriver, path.Join(s.dir, config.DbName) ); 
+    err := p.Save( config.DbDriver, path.Join(s.dir, config.DbName) );
 	if err != nil {
 		c.Errorf("Error saving: %v", err)
 	}
