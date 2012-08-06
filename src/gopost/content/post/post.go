@@ -15,6 +15,7 @@ type Post struct {
 	Body  []byte
 }
 
+// Cuts down on DB handle boilerplate.
 func getDb() *sql.DB {
 	db, err := sql.Open(config.DbDriver, config.DbName)
 	if err != nil {
@@ -24,7 +25,8 @@ func getDb() *sql.DB {
 	return db
 }
 
-func handleDbError(err error, sql string) {
+// Provides info associated with SQL queries.
+func handleSQLError(err error, sql string) {
 	if err != nil {
 		fmt.Printf("%v: %v\n", err, sql)
 	}
@@ -38,7 +40,7 @@ func (p *Post) ListAll() (*sql.Rows, error) {
 
 	sql := fmt.Sprint("select * from posts")
 	posts, err := db.Query(sql)
-	handleDbError(err, sql)
+	handleSQLError(err, sql)
 	return posts, err
 }
 
@@ -49,6 +51,6 @@ func (p *Post) Save() error {
 
 	sql := fmt.Sprintf("insert into posts (title, body) values ('%s', '%s')", p.Title, p.Body)
 	_, err := db.Exec(sql)
-	handleDbError(err, sql)
+	handleSQLError(err, sql)
 	return err
 }
