@@ -2,7 +2,7 @@
 package post
 
 import (
-    "gopost/config"
+	"gopost/config"
 	. "launchpad.net/gocheck"
 	"os/exec"
 	"path"
@@ -27,7 +27,7 @@ func (s *PostSuite) SetUpSuite(c *C) {
 
 	// Throw the test db in the tmp dir and override config.DbName so that the
 	// test knows where to find it.
-    config.DbName = path.Join(s.dir, config.DbName)
+	config.DbName = path.Join(s.dir, config.DbName)
 	cmdStr := "sqlite3 " + config.DbName + " < /Users/gmcclure/src/gopost/src/gopost/main/gopost.sql"
 
 	cmd := exec.Command("sh")
@@ -41,7 +41,7 @@ func (s *PostSuite) SetUpSuite(c *C) {
 // TestPostSave simply checks for an error on p.Save(), nothing more.
 func (s *PostSuite) TestPostSave(c *C) {
 	p := &Post{Title: "Test Post", Body: []byte("This is a test post.")}
-    err := p.Save()
+	err := p.Save()
 	if err != nil {
 		c.Errorf("Error saving: %v", err)
 	}
