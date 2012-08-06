@@ -25,8 +25,10 @@ func (s *PostSuite) SetUpSuite(c *C) {
 	// (http://go.pkgdoc.org/launchpad.net/gocheck#C.MkDir)
 	s.dir = c.MkDir()
 
-	// Throw the test db in the tmp dir
-	cmdStr := "sqlite3 " + s.dir + "/blog.db < /Users/gmcclure/src/gopost/src/gopost/main/gopost.sql"
+	// Throw the test db in the tmp dir and override config.DbName so that the
+	// test knows where to find it.
+    config.DbName = path.Join(s.dir, config.DbName)
+	cmdStr := "sqlite3 " + config.DbName + " < /Users/gmcclure/src/gopost/src/gopost/main/gopost.sql"
 
 	cmd := exec.Command("sh")
 	cmd.Stdin = strings.NewReader(cmdStr)
@@ -39,7 +41,7 @@ func (s *PostSuite) SetUpSuite(c *C) {
 // TestPostSave simply checks for an error on p.Save(), nothing more.
 func (s *PostSuite) TestPostSave(c *C) {
 	p := &Post{Title: "Test Post", Body: []byte("This is a test post.")}
-    err := p.Save( config.DbDriver, path.Join(s.dir, config.DbName) );
+    err := p.Save()
 	if err != nil {
 		c.Errorf("Error saving: %v", err)
 	}
