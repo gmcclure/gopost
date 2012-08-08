@@ -1,5 +1,5 @@
-// Package post provides gopost's basic post model. The post is conceived as,
-// along with a page, a fundmental element of blog content.
+// Package post provides gopost's basic post model. The post is conceived as
+// the fundmental unit of blog content.
 package post
 
 import (
@@ -9,7 +9,7 @@ import (
 	"gopost/config"
 )
 
-// Post is, along with Page, a fundamental unit of content in the blog.
+// Post is the fundamental unit of content in the blog.
 type Post struct {
 	Title string
 	Body  []byte
@@ -33,7 +33,7 @@ func handleSQLError(err error, sql string) {
 }
 
 // Does the expected, returning all posts in the database. By default
-// posts are ordered by date published.
+// posts are ordered by post_date.
 func (p *Post) ListAll() (*sql.Rows, error) {
 	db := getDb()
 	defer db.Close()
@@ -44,7 +44,8 @@ func (p *Post) ListAll() (*sql.Rows, error) {
 	return posts, err
 }
 
-// Saves a post to the database.
+// Saves a post to the database using the internal getDB() function and the
+// DbDriver and DbName values found in gopost/config.
 func (p *Post) Save() error {
 	db := getDb()
 	defer db.Close()
