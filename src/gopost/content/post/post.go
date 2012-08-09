@@ -3,9 +3,8 @@
 package post
 
 import (
-	"database/sql"
-	"fmt"
-	_ "github.com/mattn/go-sqlite3"
+	"labix.org/v2/mgo"
+	// "labix.org/v2/mgo/bson"
 	"gopost/config"
 )
 
@@ -16,42 +15,22 @@ type Post struct {
 }
 
 // Cuts down on DB handle boilerplate.
-func getDb() *sql.DB {
-	db, err := sql.Open(config.DbDriver, config.DbName)
-	if err != nil {
-		fmt.Println(err)
-	}
+func getDb() *mgo.Session {
+	session, err := mgo.Dial("localhost")
+	if err != nil { panic(err) }
 	// db needs to be closed by caller 
-	return db
-}
-
-// Provides info associated with SQL queries.
-func handleSQLError(err error, sql string) {
-	if err != nil {
-		fmt.Printf("%v: %v\n", err, sql)
-	}
-}
-
-// Does the expected, returning all posts in the database. By default
-// posts are ordered by post_date.
-func (p *Post) ListAll() (*sql.Rows, error) {
-	db := getDb()
-	defer db.Close()
-
-	sql := fmt.Sprint("select * from posts")
-	posts, err := db.Query(sql)
-	handleSQLError(err, sql)
-	return posts, err
+	return session
 }
 
 // Saves a post to the database using the internal getDB() function and the
 // DbDriver and DbName values found in gopost/config.
 func (p *Post) Save() error {
-	db := getDb()
-	defer db.Close()
+	session, err := mgo.Dial("localhost")
+	if err != nil { panic(err) }
+	defer session.Close()
 
-	sql := fmt.Sprintf("insert into posts (title, body) values ('%s', '%s')", p.Title, p.Body)
-	_, err := db.Exec(sql)
-	handleSQLError(err, sql)
+	c := session.DB(config.DbName).C("posts")
+	err = c.Insert(&Post{p.Title, p.Body})
+	if err != nil { panic(err) }
 	return err
 }

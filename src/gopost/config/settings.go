@@ -4,6 +4,6 @@
 package config
 
 var (
-	DbName   string = "blog.db"
-	DbDriver string = "sqlite3"
+	DbName   string = "blog"
+	DbDriver string = "mongo"
 )
