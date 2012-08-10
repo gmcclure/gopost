@@ -17,20 +17,26 @@ type Post struct {
 // Cuts down on DB handle boilerplate.
 func getDb() *mgo.Session {
 	session, err := mgo.Dial("localhost")
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 	// db needs to be closed by caller 
 	return session
 }
 
 // Saves a post to the database using the internal getDB() function and the
-// DbDriver and DbName values found in gopost/config.
+// DbName and DbPosts values found in gopost/config.
 func (p *Post) Save() error {
 	session, err := mgo.Dial("localhost")
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 	defer session.Close()
 
-	c := session.DB(config.DbName).C("posts")
+	c := session.DB(config.DbName).C(config.DbPosts)
 	err = c.Insert(&Post{p.Title, p.Body})
-	if err != nil { panic(err) }
+	if err != nil {
+		panic(err)
+	}
 	return err
 }

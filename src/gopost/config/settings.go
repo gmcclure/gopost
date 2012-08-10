@@ -4,6 +4,6 @@
 package config
 
 var (
-	DbName   string = "blog"
-	DbDriver string = "mongo"
+	DbName  string = "blog"
+	DbPosts string = "posts"
 )
