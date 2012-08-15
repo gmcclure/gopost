@@ -19,7 +19,7 @@ var _ = Suite(&PostSuite{})
 
 // Setup fixtures -- specifically, 11 test posts.
 func (s *PostSuite) SetUpSuite(c *C) {
-    config.DbName = config.TestDbName
+	config.DbName = config.TestDbName
 
 	session, err := mgo.Dial("localhost")
 	if err != nil {
@@ -48,17 +48,17 @@ func (s *PostSuite) TearDownSuite(c *C) {
 	testDb := session.DB(config.TestDbName)
 	err = testDb.DropDatabase()
 	if err != nil {
-        c.Errorf("Error dropping test db: %v", err)
+		c.Errorf("Error dropping test db: %v", err)
 	}
 }
 
 // TestPostGetAll ensures that all fixtured posts are returned.
 func (s *PostSuite) TestPostGetAll(c *C) {
-    posts := GetAll()
-    numPosts := len(*posts)
-    if numPosts != 11 {
-        c.Errorf("Incorrect number of posts returned")
-    }
+	posts := GetAll()
+	numPosts := len(*posts)
+	if numPosts != 11 {
+		c.Errorf("Incorrect number of posts returned")
+	}
 }
 
 // TestPostSave simply checks for an error on p.Save(), nothing more.

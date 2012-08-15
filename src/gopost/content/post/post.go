@@ -51,7 +51,7 @@ func (p *Post) Save() error {
 	c := session.DB(config.DbName).C(config.DbPosts)
 	err := c.Insert(&Post{p.Title, p.Body})
 	if err != nil {
-		fmt.Println("Error saving post: %v", err)
+		panic(err)
 	}
 	return err
 }
