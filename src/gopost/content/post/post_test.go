@@ -53,9 +53,13 @@ func (s *PostSuite) TearDownSuite(c *C) {
 }
 
 // TestPostGetAll ensures that all fixtured posts are returned.
-// func (s *PostSuite) TestPostGetAll(c *C) {
-//     
-// }
+func (s *PostSuite) TestPostGetAll(c *C) {
+    posts := GetAll()
+    numPosts := len(*posts)
+    if numPosts != 11 {
+        c.Errorf("Incorrect number of posts returned")
+    }
+}
 
 // TestPostSave simply checks for an error on p.Save(), nothing more.
 func (s *PostSuite) TestPostSave(c *C) {
