@@ -1,0 +1,27 @@
+#!/bin/bash
+
+install() {
+    echo "Installing ..."
+    go install gopost/main/
+}
+
+run() {
+    echo "GoPost! ..."
+    bin/main
+}
+
+test() {
+    echo "Running test ..."
+    go test gopost/content/post
+}
+
+case "$1" in
+    "install" ) install
+        ;;
+    "run"     ) run
+        ;;
+    "test"    ) test
+        ;;
+esac
+
+exit 0
