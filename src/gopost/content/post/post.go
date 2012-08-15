@@ -3,9 +3,9 @@
 package post
 
 import (
+	"gopost/config"
 	"labix.org/v2/mgo"
 	// "labix.org/v2/mgo/bson"
-	"gopost/config"
 )
 
 // Post is the fundamental unit of content in the blog.
