@@ -2,7 +2,10 @@
 package post
 
 import (
+	"gopost/config"
+	"labix.org/v2/mgo"
 	. "launchpad.net/gocheck"
+	"strconv"
 	"testing"
 )
 
@@ -13,6 +16,46 @@ type PostSuite struct {
 }
 
 var _ = Suite(&PostSuite{})
+
+// Setup fixtures -- specifically, 11 test posts.
+func (s *PostSuite) SetUpSuite(c *C) {
+    config.DbName = config.TestDbName
+
+	session, err := mgo.Dial("localhost")
+	if err != nil {
+		c.Errorf("Error finding db: %v", err)
+	}
+	defer session.Close()
+
+	postCount := 11
+	coll := session.DB(config.TestDbName).C(config.DbPosts)
+	for i := 0; i < postCount; i++ {
+		err = coll.Insert(&Post{"Test Post " + strconv.FormatInt(int64(i), 10), []byte("This is test post " + strconv.FormatInt(int64(i), 10))})
+		if err != nil {
+			c.Errorf("Error inserting test post: %v", err)
+		}
+	}
+}
+
+// Tear down fixtures and any other setup
+func (s *PostSuite) TearDownSuite(c *C) {
+	session, err := mgo.Dial("localhost")
+	if err != nil {
+		c.Errorf("Error finding db: %v", err)
+	}
+	defer session.Close()
+
+	testDb := session.DB(config.TestDbName)
+	err = testDb.DropDatabase()
+	if err != nil {
+        c.Errorf("Error dropping test db: %v", err)
+	}
+}
+
+// TestPostGetAll ensures that all fixtured posts are returned.
+// func (s *PostSuite) TestPostGetAll(c *C) {
+//     
+// }
 
 // TestPostSave simply checks for an error on p.Save(), nothing more.
 func (s *PostSuite) TestPostSave(c *C) {

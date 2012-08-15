@@ -4,6 +4,7 @@
 package config
 
 var (
-	DbName  string = "blog"
-	DbPosts string = "posts"
+	DbName     string = "blog"
+	DbPosts    string = "posts"
+	TestDbName string = "blog_test" // should be different from DbName
 )
