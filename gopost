@@ -1,5 +1,10 @@
 #!/bin/bash
 
+db_start() {
+    echo "Starting database ..."
+    mongod run --config /usr/local/etc/mongod.conf &
+}
+
 install() {
     echo "Installing ..."
     go install gopost/main/
