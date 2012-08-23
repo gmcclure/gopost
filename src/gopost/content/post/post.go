@@ -3,6 +3,7 @@
 package post
 
 import (
+	"fmt"
 	"gopost/config"
 	"labix.org/v2/mgo"
 	// "labix.org/v2/mgo/bson"
@@ -25,7 +26,7 @@ func getDb() *mgo.Session {
 }
 
 // Returns all posts in the database.
-func GetAll() *[]Post {
+func GetAll() []Post {
 	session := getDb()
 	defer session.Close()
 
@@ -34,11 +35,16 @@ func GetAll() *[]Post {
 	c := session.DB(config.DbName).C(config.DbPosts)
 	iter := c.Find(nil).Iter()
 	err := iter.All(&posts)
+
 	if err != nil {
 		panic(err)
 	}
 
-	return &posts
+	for _, p := range posts {
+		fmt.Println("Title: " + p.Title)
+	}
+
+	return posts
 }
 
 // Saves a post to the database using the internal getDB() function and the

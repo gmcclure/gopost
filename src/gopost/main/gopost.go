@@ -11,9 +11,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	ctx := make(map[string]*[]post.Post)
-	ctx["posts"] = post.GetAll()
-	t.Execute(w, ctx)
+	posts := post.GetAll()
+	t.Execute(w, posts)
 }
 
 func main() {
