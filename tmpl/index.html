@@ -1,4 +1,6 @@
 <h1>Welcome to Falling Rockets.</h1>
 
-{{ range .posts }}
-{{ end }}
+{{range .}}
+<p>Title: {{.Title}}</p>
+<p>Body: {{printf "%s" .Body}}</p>
+{{end}}
