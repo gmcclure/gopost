@@ -3,7 +3,6 @@
 package post
 
 import (
-	"fmt"
 	"gopost/config"
 	"labix.org/v2/mgo"
 	// "labix.org/v2/mgo/bson"
@@ -38,10 +37,6 @@ func GetAll() []Post {
 
 	if err != nil {
 		panic(err)
-	}
-
-	for _, p := range posts {
-		fmt.Println("Title: " + p.Title)
 	}
 
 	return posts
