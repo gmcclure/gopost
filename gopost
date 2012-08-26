@@ -6,8 +6,15 @@ build() {
 }
 
 run() {
-    echo "GoPost! ..."
-    bin/main
+    MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
+
+    if [[ -z $MONGOPID ]]
+    then
+        echo "No mongo instance running."
+    else
+        echo "GoPost! ..."
+        bin/main
+    fi
 }
 
 startdb() {
