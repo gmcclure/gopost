@@ -1,6 +1,6 @@
 #!/bin/bash
 
-install() {
+build() {
     echo "Installing ..."
     go install gopost/main/
 }
@@ -42,13 +42,32 @@ stopdb() {
     fi
 }
 
-test() {
-    echo "Running test ..."
-    go test gopost/content/post
+runtests() {
+    MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
+
+    if [[ -z $MONGOPID ]]
+    then
+        echo "Can't create a test database."
+        echo "No mongo instance, no tests, forget it."
+
+        echo
+        read -p "Should I start mongo? " -n 1 -r
+
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            startdb
+        fi
+    else
+        echo "Running tests ..."
+        build
+
+        echo "Running post tests."
+        go test gopost/content/post
+    fi
 }
 
 case "$1" in
-    "install" ) install
+    "install" ) build
         ;;
     "run"     ) run
         ;;
@@ -56,7 +75,7 @@ case "$1" in
         ;;
     "stopdb"  ) stopdb
         ;;
-    "test"    ) test
+    "test"    ) runtests
         ;;
 esac
 
