@@ -1,25 +1,24 @@
 #!/bin/bash
 
+MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
+
 build() {
-    echo "Installing ..."
+    echo "Building ..."
     go install gopost/main/
 }
 
 run() {
-    MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
-
     if [[ -z $MONGOPID ]]
     then
         echo "No mongo instance running."
     else
+        build
         echo "GoPost! ..."
         bin/main
     fi
 }
 
 startdb() {
-    MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
-
     if [[ -z $MONGOPID ]]
     then
         echo "Starting database ..."
@@ -30,8 +29,6 @@ startdb() {
 }
 
 stopdb() {
-    MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
-
     if [[ -z $MONGOPID ]]
     then
         echo "No mongo instance running."
@@ -50,8 +47,6 @@ stopdb() {
 }
 
 runtests() {
-    MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
-
     if [[ -z $MONGOPID ]]
     then
         echo "Can't create a test database."
