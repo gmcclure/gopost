@@ -1,10 +1,5 @@
 #!/bin/bash
 
-db_start() {
-    echo "Starting database ..."
-    mongod run --config /usr/local/etc/mongod.conf &
-}
-
 install() {
     echo "Installing ..."
     go install gopost/main/
@@ -13,6 +8,38 @@ install() {
 run() {
     echo "GoPost! ..."
     bin/main
+}
+
+startdb() {
+    MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
+
+    if [[ -z $MONGOPID ]]
+    then
+        echo "Starting database ..."
+        mongod run --config /usr/local/etc/mongod.conf &
+    else
+        echo "Um ... mongod's already up."
+    fi
+}
+
+stopdb() {
+    MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
+
+    if [[ -z $MONGOPID ]]
+    then
+        echo "No mongo instance running."
+    else
+        echo "Stopping database ... hold on ..."
+        kill -15 $MONGOPID
+        wait
+
+        if [[ -z $(pgrep mongod) ]]
+        then
+            echo "Mongo only pawn in game of life."
+        else
+            echo "Mongo still up!"
+        fi
+    fi
 }
 
 test() {
@@ -24,6 +51,10 @@ case "$1" in
     "install" ) install
         ;;
     "run"     ) run
+        ;;
+    "startdb" ) startdb
+        ;;
+    "stopdb"  ) stopdb
         ;;
     "test"    ) test
         ;;
