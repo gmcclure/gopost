@@ -5,12 +5,13 @@ package post
 import (
 	"gopost/config"
 	"labix.org/v2/mgo"
-	// "labix.org/v2/mgo/bson"
+	"labix.org/v2/mgo/bson"
 )
 
 // Post is the fundamental unit of content in the blog.
 type Post struct {
 	Title string
+	Slug  string
 	Body  []byte
 }
 
@@ -24,7 +25,24 @@ func getDb() *mgo.Session {
 	return session
 }
 
+// Grab a post using the post's slug.
+func Get(slug string) *Post {
+	session := getDb()
+	defer session.Close()
+
+	var post Post
+
+    c := session.DB(config.DbName).C(config.DbPosts)
+    err := c.Find(bson.M{"slug": slug}).One(&post)
+    if err != nil {
+        panic(err)
+    }
+
+    return &post
+}
+
 // Returns all posts in the database.
+// This is of extremely limited utility.
 func GetAll() []Post {
 	session := getDb()
 	defer session.Close()
@@ -49,7 +67,7 @@ func (p *Post) Save() error {
 	defer session.Close()
 
 	c := session.DB(config.DbName).C(config.DbPosts)
-	err := c.Insert(&Post{p.Title, p.Body})
+	err := c.Insert(&Post{p.Title, p.Slug, []byte(p.Body)})
 	if err != nil {
 		panic(err)
 	}

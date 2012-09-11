@@ -30,7 +30,8 @@ func (s *PostSuite) SetUpSuite(c *C) {
 	postCount := 11
 	coll := session.DB(config.TestDbName).C(config.DbPosts)
 	for i := 0; i < postCount; i++ {
-		err = coll.Insert(&Post{"Test Post " + strconv.FormatInt(int64(i), 10), []byte("This is test post " + strconv.FormatInt(int64(i), 10))})
+		err = coll.Insert(&Post{"Test Post " + strconv.FormatInt(int64(i), 10), "test_post_" + strconv.FormatInt(int64(i), 10), []byte("This is test post " + strconv.FormatInt(int64(i), 10))})
+
 		if err != nil {
 			c.Errorf("Error inserting test post: %v", err)
 		}
@@ -49,6 +50,14 @@ func (s *PostSuite) TearDownSuite(c *C) {
 	err = testDb.DropDatabase()
 	if err != nil {
 		c.Errorf("Error dropping test db: %v", err)
+	}
+}
+
+// TestPostGet tests the retrieval of a single post by the post's slug.
+func (s *PostSuite) TestPostGet(c *C) {
+	post := Get("test_post_3")
+	if post.Title != "Test Post 3" {
+	    c.Errorf("Incorrect test post returned")
 	}
 }
 
