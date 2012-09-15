@@ -5,11 +5,91 @@
         <link rel="stylesheet" type="text/css" href="static/stylesheets/app.css" />
     </head>
     <body>
-        <h1>Welcome to Falling Rockets.</h1>
+        <div class="row">
+            <div class="twelve columns">
+              <ul class="nav-bar">
+                <li><a href="/">Home</a></li>
+              </ul>
 
-        {{range .}}
-        <h2>{{.Title}}</h2>
-        <p>{{printf "%s" .Body}}</p>
-        {{end}}
+              <h1>Falling Rockets <small>Sweet, apocalyptic nothings.</small>
+              <hr />
+            </div>
+        </div>
+
+        <!-- End Nav -->
+
+
+        <!-- Main Page Content and Sidebar -->
+
+        <div class="row">
+
+        <!-- Main Blog Content -->
+        <div class="nine columns" role="content">
+
+          {{range .}}
+          <article>
+
+            <h3><a href="#">{{.Title}}</a></h3>
+            <h6>Written by <a href="#">GMc</a> on August 12, 2012.</h6>
+
+            {{printf "%s" .Body}}
+
+          </article>
+
+          <hr />
+          {{end}}
+
+        </div>
+
+        <!-- End Main Content -->
+
+
+        <!-- Sidebar -->
+
+        <aside class="three columns">
+
+          <h5>Categories</h5>
+          <ul class="side-nav">
+            <li><a href="#">News</a></li>
+            <li><a href="#">Code</a></li>
+            <li><a href="#">Design</a></li>
+            <li><a href="#">Fun</a></li>
+            <li><a href="#">Weasels</a></li>
+          </ul>
+
+          <div class="panel">
+            <h5>Featured</h5>
+            <p>Pork drumstick turkey fugiat. Tri-tip elit turducken pork chop in. Swine short ribs meatball irure bacon nulla pork belly cupidatat meatloaf cow.</p>
+            <a href="#">Read More &rarr;</a>
+          </div>
+
+        </aside>
+
+        <!-- End Sidebar -->
+        </div>
+
+        <!-- End Main Content and Sidebar -->
+
+
+        <!-- Footer -->
+
+        <footer class="row">
+        <div class="twelve columns">
+          <hr />
+          <div class="row">
+            <div class="six columns">
+              <p>&copy; Copyright Greg McClure 2012.</p>
+            </div>
+            <div class="six columns">
+              <ul class="link-list right">
+                <li><a href="http://www.entasisjournal.com/">Entasis</a></li>
+                <li><a href="http://www.github.com/gmcclure/gopost">GoPost Blog Engine</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        </footer>
+
+        <!-- End Footer -->
     </body>
 </html>
