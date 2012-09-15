@@ -1,6 +1,15 @@
-<h1>Welcome to Falling Rockets.</h1>
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Falling Rockets</title>
+        <link rel="stylesheet" type="text/css" href="static/stylesheets/app.css" />
+    </head>
+    <body>
+        <h1>Welcome to Falling Rockets.</h1>
 
-{{range .}}
-<p>Title: {{.Title}}</p>
-<p>Body: {{printf "%s" .Body}}</p>
-{{end}}
+        {{range .}}
+        <h2>{{.Title}}</h2>
+        <p>{{printf "%s" .Body}}</p>
+        {{end}}
+    </body>
+</html>
