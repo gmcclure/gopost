@@ -4,7 +4,7 @@ MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
 
 build() {
     echo "Building ..."
-    go install gopost/main/
+    go install github.com/gmcclure/gopost/main/
 }
 
 run() {
@@ -64,7 +64,7 @@ runtests() {
         build
 
         echo "Running post tests."
-        go test gopost/content/post
+        go test github.com/gmcclure/gopost/content/post
     fi
 }
 
