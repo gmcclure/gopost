@@ -8,6 +8,10 @@ project's root directory:
 
     bin/main
 
+Better yet, use the `gopost` command, which builds the app first:
+
+    gopost run
+
 For now, static files are stored in the toplevel `static` directory, which is
 symlinked in `bin`. It's hacky, and there should be a config var somewhere or
 something, but it works for now. An `ls -l bin` should produce a line that
