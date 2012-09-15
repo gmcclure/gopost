@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MONGOPID=$(cat /usr/local/var/mongodb/mongod.lock)
+MONGOPID=$(pgrep mongod)
 
 build() {
     echo "Building ..."
@@ -39,6 +39,7 @@ stopdb() {
 
         if [[ -z $(pgrep mongod) ]]
         then
+            echo "Mongo no work no more."
             echo "Mongo only pawn in game of life."
         else
             echo "Mongo still up!"
