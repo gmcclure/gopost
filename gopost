@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MONGOPID=$(pgrep mongod)
+MONGOPID=$(pidof mongod)
 
 build() {
     echo "Building ..."
@@ -22,7 +22,7 @@ startdb() {
     if [[ -z $MONGOPID ]]
     then
         echo "Starting database ..."
-        mongod run --config /usr/local/etc/mongod.conf &
+        mongod &
     else
         echo "Um ... mongod's already up."
     fi
@@ -34,7 +34,7 @@ stopdb() {
         echo "No mongo instance running."
     else
         echo "Stopping database ... hold on ..."
-        kill -15 $MONGOPID
+        kill $MONGOPID
         wait
 
         if [[ -z $(pgrep mongod) ]]
