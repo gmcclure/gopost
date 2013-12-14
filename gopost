@@ -4,7 +4,7 @@ MONGOPID=$(pidof mongod)
 
 build() {
     echo "Building ..."
-    go install github.com/gmcclure/gopost/main/
+    go install github.com/gmcclure/gopost/
 }
 
 run() {
@@ -14,7 +14,7 @@ run() {
     else
         build
         echo "GoPost! ..."
-        bin/main
+        bin/gopost
     fi
 }
 

@@ -3,6 +3,7 @@ package post
 
 import (
 	"github.com/gmcclure/gopost/config"
+	. "github.com/smartystreets/goconvey/convey"
 	"labix.org/v2/mgo"
 	. "launchpad.net/gocheck"
 	"strconv"
@@ -55,19 +56,17 @@ func (s *PostSuite) TearDownSuite(c *C) {
 
 // TestPostGet tests the retrieval of a single post by the post's slug.
 func (s *PostSuite) TestPostGet(c *C) {
-	post := Get("test_post_3")
-	if post.Title != "Test Post 3" {
-	    c.Errorf("Incorrect test post returned")
-	}
+    Convey("Retrieving a post", c, func() {
+        post := Get("test_post_3")
+        So(post.Title, ShouldEqual, "Test Post 3")
+    })
+	// c.Check(post.Title, Equals, "Test Post 3")
 }
 
 // TestPostGetAll ensures that all fixtured posts are returned.
 func (s *PostSuite) TestPostGetAll(c *C) {
 	posts := GetAll()
-	numPosts := len(posts)
-	if numPosts != 11 {
-		c.Errorf("Incorrect number of posts returned")
-	}
+	c.Check(len(posts), Equals, 11, Commentf("Incorrect number of posts returned"))
 }
 
 // TestPostSave simply checks for an error on p.Save(), nothing more.
